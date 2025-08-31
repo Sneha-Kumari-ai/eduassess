@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 6px;
+      background: #0f172a;
+      color: white;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: linear-gradient(to right, #3b82f6, #06b6d4);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      display: block;
+      margin: 2rem auto 0;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #2563eb, #0891b2);
+    }
+
+    #result {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #0f172a;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Your Assessment</h1>
+    <p id="userEmail"></p>
+
+    <form id="assessmentForm">
+      <!-- Q1 MCQ -->
+      <div class="question">
+        <h2>1. What is the capital of France?</h2>
+        <label><input type="radio" name="q1" value="London"> London</label>
+        <label><input type="radio" name="q1" value="Paris"> Paris</label>
+        <label><input type="radio" name="q1" value="Berlin"> Berlin</label>
+      </div>
+
+      <!-- Q2 True/False -->
+      <div class="question">
+        <h2>2. The Earth revolves around the Sun. (True/False)</h2>
+        <label><input type="radio" name="q2" value="True"> True</label>
+        <label><input type="radio" name="q2" value="False"> False</label>
+      </div>
+
+      <!-- Q3 Short Answer -->
+      <div class="question">
+        <h2>3. Solve: 5 + 7 = ?</h2>
+        <input type="text" name="q3" placeholder="Enter your answer">
+      </div>
+
+      <!-- Q4 MCQ -->
+      <div class="question">
+        <h2>4. Which is a programming language?</h2>
+        <label><input type="radio" name="q4" value="Python"> Python</label>
+        <label><input type="radio" name="q4" value="HTML"> HTML</label>
+        <label><input type="radio" name="q4" value="CSS"> CSS</label>
+      </div>
+
+      <!-- Q5 True/False -->
+      <div class="question">
+        <h2>5. Water boils at 50°C. (True/False)</h2>
+        <label><input type="radio" name="q5" value="True"> True</label>
+        <label><input type="radio" name="q5" value="False"> False</label>
+      </div>
+
+      <button type="submit">Submit Assessment</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Show user email
+    document.getElementById("userEmail").textContent =
+      "Logged in as: " + (localStorage.getItem("userEmail") || "Guest");
+
+    // Correct answers
+    const answers = {
+      q1: "Paris",
+      q2: "True",
+      q3: "12",
+      q4: "Python",
+      q5: "False"
+    };
+
+    document.getElementById("assessmentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let score = 0;
+      let total = Object.keys(answers).length;
+
+      for (let key in answers) {
+        let userAnswer = document.querySelector(`[name="${key}"]:checked`)?.value 
+                        || document.querySelector(`[name="${key}"]`)?.value.trim();
+
+        if (userAnswer && userAnswer.toLowerCase() === answers[key].toLowerCase()) {
+          score++;
+        }
+      }
+
+      let percentage = Math.round((score / total) * 100);
+      document.getElementById("result").textContent =
+        `✅ You scored ${score}/${total} (${percentage}%)`;
+    });
+  </script>
+</body>
+</html>

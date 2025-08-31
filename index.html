@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edu Assess — Assessing Academic Efficiency</title>
+  <meta name="description" content="Edu Assess helps evaluate students' academic efficiency with clean analytics and smart assessments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#101733;
+      --panel-2:#0f1530;
+      --text:#e6e9f2;
+      --muted:#b9c0d9;
+      --brand:#6c7bff;
+      --brand-2:#7bd3ff;
+      --accent:#2dd4bf;
+      --danger:#ff6b6b;
+      --ring: 0 0 0 8px color-mix(in oklab, var(--brand) 20%, transparent);
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --radius: 20px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif; color:var(--text);
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(124, 58, 237, .25), transparent 60%),
+                  radial-gradient(900px 600px at 90% 10%, rgba(37, 99, 235, .25), transparent 60%),
+                  var(--bg);
+      line-height:1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px}
+
+    /* NAV */
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(10px);
+      background: linear-gradient(180deg, rgba(11,16,32,.8), rgba(11,16,32,.6));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.2px}
+    .logo{
+      width:38px; height:38px; display:grid; place-items:center; border-radius:12px;
+      background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:white;
+      box-shadow:0 10px 25px rgba(108,123,255,.5);
+      font-weight:800;
+    }
+    nav ul{display:flex; gap:22px; list-style:none; padding:0; margin:0}
+    nav a{color:var(--muted); font-weight:600}
+    nav a:hover{color:var(--text)}
+    .cta-btn{
+      appearance:none; border:0; padding:12px 18px; border-radius:14px; font-weight:700; cursor:pointer;
+      background:linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+      color:white; box-shadow:0 10px 30px rgba(108,123,255,.35);
+    }
+    .cta-btn:hover{filter:brightness(1.05)}
+
+    /* HERO */
+    .hero{padding:80px 0 40px}
+    .hero-grid{display:grid; grid-template-columns:1.2fr .8fr; gap:30px; align-items:center}
+    .kicker{color:var(--accent); font-weight:800; letter-spacing:.25em; text-transform:uppercase; font-size:.78rem}
+    h1{font-size: clamp(2rem, 4.5vw, 3.5rem); line-height:1.1; margin:10px 0 16px}
+    .subtitle{color:var(--muted); font-size:clamp(1rem,1.6vw,1.2rem)}
+    .hero-actions{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap}
+    .ghost-btn{
+      border:1px solid rgba(255,255,255,.18); padding:12px 16px; border-radius:14px; font-weight:700;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      color:var(--text)
+    }
+    .ghost-btn:hover{border-color:rgba(255,255,255,.35)}
+
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);
+    }
+    .mini-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px}
+    .stat{background:var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:16px; padding:14px}
+    .stat b{font-size:1.3rem}
+    .progress{
+      height:10px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-top:8px
+    }
+    .progress > span{display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--brand-2)); width:60%}
+
+    /* FEATURES */
+    .section{padding:60px 0}
+    .section h2{font-size:clamp(1.6rem,3vw,2.2rem); margin:0 0 8px}
+    .section p.lead{color:var(--muted); margin:0 0 26px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:20px; box-shadow:var(--shadow);
+    }
+    .icon{width:36px; height:36px; display:grid; place-items:center; border-radius:10px;
+      background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:white; box-shadow:0 8px 20px rgba(124,58,237,.35); margin-bottom:10px}
+    .muted{color:var(--muted)}
+
+    /* CATEGORIES */
+    .pillstrip{display:flex; gap:10px; flex-wrap:wrap; margin:18px 0}
+    .pill{border:1px solid rgba(255,255,255,.14); padding:10px 14px; border-radius:999px; background:rgba(255,255,255,.04); font-weight:600; color:var(--muted)}
+
+    .catalog{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+    .tile{position:relative; overflow:hidden; border-radius:18px; cursor:pointer; isolation:isolate;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08)}
+    .tile:hover{transform:translateY(-2px)}
+    .tile > .img{
+      height:120px; background:linear-gradient(135deg, rgba(124,58,237,.5), rgba(37,99,235,.55)); filter:saturate(1.1);
+    }
+    .tile > .info{padding:14px}
+    .badge{font-size:.75rem; color:#0a1122; background:var(--accent); font-weight:800; padding:6px 8px; border-radius:999px}
+
+    /* HOW IT WORKS */
+    .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .step{display:flex; gap:14px; align-items:flex-start}
+    .num{width:34px; height:34px; border-radius:12px; display:grid; place-items:center; font-weight:800;
+      color:white; background:linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow:0 8px 20px rgba(108,123,255,.3)}
+
+    /* CTA */
+    .cta{
+      background: radial-gradient(600px 300px at 80% -10%, rgba(45,212,191,.25), transparent 60%), var(--panel-2);
+      border:1px solid rgba(255,255,255,.08); border-radius:24px; padding:28px; display:flex; align-items:center; gap:20px; flex-wrap:wrap
+    }
+    .cta input[type=email]{
+      width:260px; max-width:100%; background:#0b1228; border:1px solid rgba(255,255,255,.12); color:var(--text);
+      border-radius:12px; padding:12px 14px; outline: none;
+    }
+
+    /* FOOTER */
+    footer{border-top:1px solid rgba(255,255,255,.1); margin-top:40px; color:var(--muted)}
+    .foot{display:flex; gap:16px; justify-content:space-between; align-items:center; padding:24px 0; flex-wrap:wrap}
+
+    /* RESPONSIVE */
+    @media (max-width: 960px){
+      .hero-grid{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr 1fr}
+      .catalog{grid-template-columns:1fr 1fr}
+      .steps{grid-template-columns:1fr}
+    }
+    @media (max-width: 560px){
+      nav ul{display:none}
+      .grid-3{grid-template-columns:1fr}
+      .catalog{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header>
+    <div class="container nav">
+      <a href="#" class="brand" aria-label="Edu Assess Home">
+        <span class="logo">EA</span>
+        <span>Edu Assess</span>
+      </a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="#get-started" class="cta-btn">Get Started with the assessment</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="kicker">Smart academic analytics</p>
+          <h1>Assess students' efficiency with clarity, speed, and fairness.</h1>
+          <p class="subtitle">Edu Assess provides structured assessments, auto-generated insights, and clean progress tracking — so educators can focus on teaching and students on learning.</p>
+          <div class="hero-actions">
+            <a class="cta-btn" href="#get-started">Create Assessment</a>
+            <a class="ghost-btn" href="#features">Explore Features</a>
+          </div>
+          <div class="pillstrip" aria-label="Popular tags">
+            <span class="pill">MCQ & Subjective</span>
+            <span class="pill">Bloom's taxonomy</span>
+            <span class="pill">Outcome-based</span>
+            <span class="pill">CBSE/UGC</span>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Preview analytics card">
+          <h3 style="margin:0 0 6px">Class 2A — Weekly Snapshot</h3>
+          <p class="muted" style="margin:0 0 14px">Auto-generated from last assessment</p>
+          <div class="mini-stats">
+            <div class="stat">
+              <div class="muted">Avg. Score</div>
+              <b>76%</b>
+              <div class="progress" aria-label="Average score progress"><span style="width:76%"></span></div>
+            </div>
+            <div class="stat">
+              <div class="muted">Completion</div>
+              <b>92%</b>
+              <div class="progress" aria-label="Completion progress"><span style="width:92%"></span></div>
+            </div>
+            <div class="stat">
+              <div class="muted">Top Performer</div>
+              <b>#Aditi</b>
+              <div class="progress" aria-label="Top performer index"><span style="width:100%"></span></div>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px">
+            <div class="card">
+              <div class="muted">Weak Topics</div>
+              <strong>Algebraic Expressions</strong>
+              <p class="muted" style="margin:6px 0 0">Targeted practice recommended</p>
+            </div>
+            <div class="card">
+              <div class="muted">Strengths</div>
+              <strong>Reading Comprehension</strong>
+              <p class="muted" style="margin:6px 0 0">Consistent improvement</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="section">
+      <div class="container">
+        <h2>Everything you need to evaluate fairly</h2>
+        <p class="lead">From creating assessments to viewing outcomes, Edu Assess keeps the workflow simple and effective.All you need is to explore with a click.</p>
+        <div class="grid-3">
+          <div class="card">
+            <div class="icon" aria-hidden="true">📊</div>
+            <h3>Insightful Analytics</h3>
+            <p class="muted">Track progress, mastery, and growth over time with clear, actionable dashboards."Turn raw assessment data into powerful insights. Track student progress, identify strengths and weaknesses, and visualize performance trends with interactive charts and reports."
+
+          </div>
+          <div class="card">
+            <div class="icon" aria-hidden="true">🧠</div>
+            <h3>Skill Mapping</h3>
+            <p class="muted">Map questions to learning outcomes and Bloom levels to measure true understanding.Bridge the gap between learning and application. Skill Mapping helps track competencies across subjects, aligns them with career goals, and creates personalized learning paths for every student.</p>
+          </div>
+          <div class="card">
+            <div class="icon" aria-hidden="true">📝</div>
+            <h3>Flexible Question Types</h3>
+            <p class="muted">MCQ, short/long answers, fill in the blanks, and practical tasks — all supported.Design assessments your way. From multiple-choice and true/false to fill-in-the-blank, coding challenges, and descriptive responses — support every learning style with versatile question formats.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section id="categories" class="section">
+      <div class="container">
+        <h2>Assessment Categories</h2>
+        <p class="lead">Start with a template or build your own. Mix and match subjects and difficulty levels.</p>
+        <div class="catalog" role="list">
+          <article class="tile" role="listitem">
+            <div class="img" aria-hidden="true"></div>
+            <div class="info">
+                <img src="https://www.vecteezy.com/vector-art/21826876-hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on-isolated-background-school-education-sign-business-concept" alt="">
+              <span class="badge">Maths</span>
+              <h3 style="margin:8px 0 4px">Core Mathematics</h3>
+              <p class="muted" style="margin:0">Algebra • Geometry • Calculus</p>
+            </div>
+          </article>
+          <article class="tile" role="listitem">
+            <div class="img" aria-hidden="true"></div>
+            <div class="info">
+              <span class="badge">Science</span>
+              <h3 style="margin:8px 0 4px">Physics & Chemistry</h3>
+              <p class="muted" style="margin:0">Mechanics • Mole • Reactions</p>
+            </div>
+          </article>
+          <article class="tile" role="listitem">
+            <div class="img" aria-hidden="true"></div>
+            <div class="info">
+              <span class="badge">Languages</span>
+              <h3 style="margin:8px 0 4px">English Proficiency</h3>
+              <p class="muted" style="margin:0">Grammar • Reading • Writing</p>
+            </div>
+          </article>
+          <article class="tile" role="listitem">
+            <div class="img" aria-hidden="true"></div>
+            <div class="info">
+              <span class="badge">Reasoning</span>
+              <h3 style="margin:8px 0 4px">Logical Aptitude</h3>
+              <p class="muted" style="margin:0">DI • Puzzles • Series</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="section">
+      <div class="container">
+        <h2>How it works</h2>
+        <p class="lead">Three simple steps to start assessing academic efficiency.</p>
+        <div class="steps">
+          <div class="card step">
+            <div class="num" aria-hidden="true">1</div>
+            <div>
+              <h3 style="margin:0">Create or pick a template</h3>
+              <p class="muted" style="margin:6px 0 0">Choose a subject, difficulty, and learning outcomes.</p>
+            </div>
+          </div>
+          <div class="card step">
+            <div class="num" aria-hidden="true">2</div>
+            <div>
+              <h3 style="margin:0">Conduct the assessment</h3>
+              <p class="muted" style="margin:6px 0 0">Students respond online or on paper — your call.</p>
+            </div>
+          </div>
+          <div class="card step">
+            <div class="num" aria-hidden="true">3</div>
+            <div>
+              <h3 style="margin:0">Review analytics</h3>
+              <p class="muted" style="margin:6px 0 0">Identify strengths and gaps, then assign targeted practice.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="get-started" class="section">
+      <div class="container">
+        <div class="cta">
+          <div style="flex:1 1 320px">
+            <h2 style="margin:0">Start your first assessment today</h2>
+            <p class="muted" style="margin:6px 0 0">Free to use for teachers and students. No credit card needed.Get started instantly with a simple click. Create, attempt, or assign assessments in minutes and experience a smooth, user-friendly platform designed to make learning assessments effortless.</p>
+          </div>
+          <form action="/join" method="POST" style="display:flex; gap:10px; align-items:center" aria-label="Join waitlist form">
+
+            <label for="email" class="visually-hidden" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)">Email</label>
+            <input id="email" type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit" class="cta-btn">Join Waitlist</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- SUBSCRIBE SECTION -->
+<section id="subscribe" class="section">
+  <div class="container">
+    <div class="cta" style="flex-direction:column; text-align:center;">
+      <h2 style="margin:0">📩 Stay Updated</h2>
+      <p class="muted" style="margin:6px 0 18px">
+        Enter your email to get the latest updates on assessments and features.
+      </p>
+      <form action="/subscribe" method="POST" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <label for="subEmail" class="visually-hidden" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)">Email</label>
+        <input id="subEmail" type="email" name="email" placeholder="Enter your email" required
+          style="padding:12px 14px; width:260px; max-width:100%; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0b1228; color:var(--text);">
+        <button type="submit" class="cta-btn">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="container foot">
+      <div class="brand" style="gap:8px">
+        <span class="logo">EA</span>
+        <span>Edu Assess</span>
+      </div>
+      <small>© <span id="year"></span> Edu Assess. Built with HTML & CSS.</small>
+    </div>
+  </footer>
+
+  <!-- tiny enhancement without JS requirement: graceful fallback -->
+  <script>
+    // Optional: set year; page is fully functional without JS
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
